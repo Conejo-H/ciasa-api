@@ -79,7 +79,7 @@ function getTransactions(){
 //Obtenemos toda la información de una venta específica
 function obtenerDatosVenta(folio){
 	return new Promise((resolve,reject) => {
-			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, dolares, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
+			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
 			})
