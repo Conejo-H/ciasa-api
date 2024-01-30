@@ -110,6 +110,7 @@ function obtenerDatosVenta(folio){
 
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
 function pasarVentaACancelacion(data){
+	console.log(data)
 	var zonaHoraria = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	console.log(zonaHoraria);
 
@@ -129,13 +130,12 @@ function pasarVentaACancelacion(data){
 	// let hour = fecha.getHours() + ":" + fecha.getMinutes() + ":" + fecha.getSeconds();
 	// console.log(hour);
 
-	return new Promise((resolve,reject) => {
-		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${fecha}', '${zonaHoraria}' , '${ahora}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
-	  	(err, result) => {
-	    	if (err) throw err;
-	  	});
-
-	});
+	//return new Promise((resolve,reject) => {
+	//	connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${fecha}', '${zonaHoraria}' , '${ahora}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
+	//  	(err, result) => {
+	//    	if (err) throw err;
+	//  	});
+	//});
 }
 
 //Eliminamos de la tabla de ventas todos los datos de un folio específico
