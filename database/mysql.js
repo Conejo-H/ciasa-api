@@ -82,6 +82,7 @@ function obtenerDatosDetVenta(folio){
 			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
 			if(error) return reject(error);
 			resolve(result);
+			console.log("Datos Detventas obtenidos");
 			})
 	}); 
 }
@@ -104,6 +105,7 @@ function obtenerDatosVenta(folio){
 		connection.query(`SELECT folioV, producto, descripcion, cantidad, importe, ventas.costo AS CostosP, precio, productos.paquete AS Paq FROM ventas LEFT JOIN productos on productos.idp = ventas.producto WHERE folioV = '${folio}' `, (error, result) =>{
 		if(error) return reject(error);
 		resolve(result);
+		console.log("Datos venta obtenidos");
 		})
 }); 
 }
@@ -144,6 +146,7 @@ function eliminarVenta(data){
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
+		  console.log("Venta eliminada");
 
 	});
 }
