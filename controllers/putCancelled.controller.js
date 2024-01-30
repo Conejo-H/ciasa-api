@@ -11,9 +11,7 @@ function putCancelled(req, res){
 						try{
 							console.log(venta);
 							usersRows = JSON.parse(JSON.stringify(venta))
-							console.log(usersRows);
-							let ventaLlength = Object.keys(usersRows).length;
-							console.length(ventaLlength);
+							console.log( Object.keys( usersRows.folioV).length ) ;
 							db.putCancelled(detVenta);
 							db.pasarVentaACancelacion(venta);
 							db.eliminarVenta(detVenta);
