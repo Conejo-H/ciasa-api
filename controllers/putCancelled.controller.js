@@ -11,6 +11,8 @@ function putCancelled(req, res){
 						try{
 							// console.log(venta);
 							usersRows = JSON.parse(JSON.stringify(venta));
+							const ventaArray = Object.values(usersRows);
+							console.log(ventaArray);
 							// console.log(venta[1][1]);
 							//console.log( Object.keys( usersRows.folioV).length ) ;
 
