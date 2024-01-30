@@ -12,7 +12,7 @@ function putCancelled(req, res){
 							// console.log(venta);
 							// usersRows = JSON.parse(JSON.stringify(venta));
 							// console.log(venta[1][1]);
-							console.log( Object.keys( usersRows.folioV).length ) ;
+							//console.log( Object.keys( usersRows.folioV).length ) ;
 
 							db.putCancelled(detVenta);
 							db.pasarVentaACancelacion(venta);
