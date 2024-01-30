@@ -9,10 +9,11 @@ function putCancelled(req, res){
 					res.send({respuesta: 'Estatus actualizado a cancelado'});
 					return db.obtenerDatosVenta(req.params.folio).then((venta)=> {
 						try{
-							console.log(venta);
-							usersRows = JSON.parse(JSON.stringify(venta));
-							console.log(venta[1][1]);
+							// console.log(venta);
+							// usersRows = JSON.parse(JSON.stringify(venta));
+							// console.log(venta[1][1]);
 							console.log( Object.keys( usersRows.folioV).length ) ;
+
 							db.putCancelled(detVenta);
 							db.pasarVentaACancelacion(venta);
 							db.eliminarVenta(detVenta);
