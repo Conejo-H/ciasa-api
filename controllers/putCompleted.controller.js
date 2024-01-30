@@ -3,7 +3,7 @@ const respuesta = require ('../red/respuestas');
 
 function putCompleted(req, res){
 	try{
-		return db.obtenerDatosVenta(req.params.folio).then((items)=>{
+		return db.obtenerDatosDetVenta(req.params.folio).then((items)=>{
 			try{
 				if(items[0].estatus === ''  ){
 					db.putCompleted(items);

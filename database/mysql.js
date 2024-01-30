@@ -77,7 +77,7 @@ function getTransactions(){
 }
 
 //Obtenemos toda la información de una venta específica
-function obtenerDatosVenta(folio){
+function obtenerDatosDetVenta(folio){
 	return new Promise((resolve,reject) => {
 			connection.query(`SELECT id, folio, tipopago, efectivo, targeta, monedero, total, cliente, sucursal, pagocon, SUBSTRING(fecha, 1, 10) as fecha, cajero, descuento, cantidaddescuento, turno, saldocliente, clientecredito, estacion, foliocorte, estatus FROM detventas WHERE folio = '${folio}' `, (error, result) =>{
 			if(error) return reject(error);
@@ -92,9 +92,19 @@ function putCancelled(venta){
 		connection.query( `UPDATE detventas SET estatus = 'cancelado'  WHERE folio = '${venta[0].folio}' ; `, (error, result) =>{
 		if(error) return reject(error);
 		resolve(result);
-		pasarVentaACancelacion(venta);
+		//pasarVentaACancelacion(venta);
+		//eliminarVenta(venta);
 		})
 	});
+}
+
+function obtenerDatosVenta(folio){
+	return new Promise((resolve,reject) => {
+		connection.query(`SELECT folioV, producto, descripcion, cantidad, importe, ventas.costo AS CostosP, precio, productos.paquete AS Paq FROM ventas LEFT JOIN productos on productos.idp = ventas.producto WHERE folioV = '${folio}' `, (error, result) =>{
+		if(error) return reject(error);
+		resolve(result);
+		})
+}); 
 }
 
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
@@ -120,6 +130,17 @@ function pasarVentaACancelacion(data){
 
 	return new Promise((resolve,reject) => {
 		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${data[0].folio}', '', '', '', '', '${fecha}', '${zonaHoraria}' , '${ahora}', '', '${data[0].cajero}', '${data[0].turno}', '${data[0].total}', '${data[0].sucursal}', '${data[0].estacion}', '${data[0].foliocorte}'); `,
+	  	(err, result) => {
+	    	if (err) throw err;
+	  	});
+
+	});
+}
+
+//Eliminamos de la tabla de ventas todos los datos de un folio específico
+function eliminarVenta(data){
+	return new Promise((resolve,reject) => {
+		connection.query( `DELETE FROM ventas WHERE folio ='${data[0].folio}'; `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
@@ -157,7 +178,9 @@ function obtenerCredencialesUsuario(username, password){
 module.exports = {
 	getUsers,
 	getTransactions,
+	obtenerDatosDetVenta,
 	obtenerDatosVenta,
+	eliminarVenta,
 	putCancelled,
 	pasarVentaACancelacion,
 	putCompleted,
