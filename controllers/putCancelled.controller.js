@@ -9,14 +9,14 @@ function putCancelled(req, res){
 					res.send({respuesta: 'Estatus actualizado a cancelado'});
 					return db.obtenerDatosVenta(req.params.folio).then((venta)=> {
 						try{
-							console.log(detVenta);
-							console.log(venta);
+							console.log("Detventa" + detVenta);
+							console.log("Venta" + venta);
 							db.putCancelled(detVenta);
-							//pasarVentaACancelacion(venta);
-							eliminarVenta(detVenta);
+							db.pasarVentaACancelacion(venta);
+							db.eliminarVenta(detVenta);
 						}
 						catch{
-							res.send({respuesta: 'No se pudo completar la solicitud'});
+							console.log("No se puede imprimir el texto");
 						}
 					})				
 				}
