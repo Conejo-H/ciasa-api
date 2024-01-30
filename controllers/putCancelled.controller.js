@@ -9,11 +9,13 @@ function putCancelled(req, res){
 					res.send({respuesta: 'Estatus actualizado a cancelado'});
 					return db.obtenerDatosVenta(req.params.folio).then((venta)=> {
 						try{
-							console.log(detVenta);
-							console.log(venta);
 							db.putCancelled(detVenta);
-							//pasarVentaACancelacion(venta);
-							db.eliminarVenta(detVenta);
+
+							let ventaJSON = Object.values(JSON.parse(JSON.stringify(venta)));
+							var count = Object.keys(ventaJSON).length;
+							console.log("Total entries: " + count);
+							db.pasarVentaACancelacion(venta);
+							//db.eliminarVenta(detVenta);
 						}
 						catch{
 							console.log("No se puede imprimir el texto");

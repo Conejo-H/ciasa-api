@@ -112,13 +112,35 @@ function obtenerDatosVenta(folio){
 
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
 function pasarVentaACancelacion(data){
+	let ventaJSON = Object.values(JSON.parse(JSON.stringify(data)));
 	var zonaHoraria = Intl.DateTimeFormat().resolvedOptions().timeZone;
-	//console.log(zonaHoraria);
-
 	var today = new Date();
 	var ahora = today.toISOString();
+	var fecha = ahora.substring(0,10);
+	for (var item of ventaJSON) 
+	{
+  	console.log('folio: ' + item.folioV);
+	console.log('producto: ' + item.producto);
+	console.log('descripcion: ' + item.descripcion);
+	console.log('cantidad: ' + item.cantidad);
+	console.log('importe: ' + item.importe);
+
+	return new Promise((resolve,reject) => {
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${item.folioV}', '${item.producto}', '${item.cantidad}', '${item.precio}', '${item.costo}', '${fecha}', '${zonaHoraria}' , '${ahora}', '', '', '', '', '', '', ''); `,
+	  	(err, result) => {
+	    	if (err) throw err;
+	  	});
+	});
+	}
+	//let ventaArray = Object.entries(ventaJSON);
+	//console.log(ventaArray);
+	
+	//console.log(zonaHoraria);
+
+	
+	
 	// ahora = ahora.substring(0,23);
-	fecha = ahora.substring(0,10);
+	
 	// var hora = ahora.slice(11,19);
 	// console.log(hora);
 	// var fecha = new Date().now();
@@ -142,12 +164,11 @@ function pasarVentaACancelacion(data){
 //Eliminamos de la tabla de ventas todos los datos de un folio específico
 function eliminarVenta(data){
 	return new Promise((resolve,reject) => {
-		queery =connection.query( `DELETE FROM ventas WHERE folioV ='${data[0].folio}'; `,
+		connection.query( `DELETE FROM ventas WHERE folioV ='${data[0].folio}'; `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
-		console.log(queery);
-		  console.log("Venta eliminada");
+		console.log("Venta eliminada");
 
 	});
 }
