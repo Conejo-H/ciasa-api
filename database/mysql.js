@@ -142,10 +142,11 @@ function pasarVentaACancelacion(data){
 //Eliminamos de la tabla de ventas todos los datos de un folio específico
 function eliminarVenta(data){
 	return new Promise((resolve,reject) => {
-		connection.query( `DELETE FROM ventas WHERE folioV ='${data[0].folio}'; `,
+		queery =connection.query( `DELETE FROM ventas WHERE folioV ='${data[0].folio}'; `,
 	  	(err, result) => {
 	    	if (err) throw err;
 	  	});
+		console.log(queery);
 		  console.log("Venta eliminada");
 
 	});
