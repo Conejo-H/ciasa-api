@@ -12,7 +12,7 @@ function putCancelled(req, res){
 							console.log("Detventa" + detVenta);
 							console.log("Venta" + venta);
 							db.putCancelled(detVenta);
-							db.pasarVentaACancelacion(venta);
+							//db.pasarVentaACancelacion(venta);
 							db.eliminarVenta(detVenta);
 						}
 						catch{
