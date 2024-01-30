@@ -111,34 +111,20 @@ function obtenerDatosVenta(folio){
 }
 
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
-function pasarVentaACancelacion(data){
-	let ventaJSON = Object.values(JSON.parse(JSON.stringify(data)));
+function pasarVentaACancelacion(folioV, producto, cantidad, precio, costo, importe){
+	console.log("Costo:" + costo);
 	var zonaHoraria = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	var today = new Date();
 	var ahora = today.toISOString();
 	var fecha = ahora.substring(0,10);
-	for (var item of ventaJSON) 
-	{
-  	console.log('folio: ' + item.folioV);
-	console.log('producto: ' + item.producto);
-	console.log('descripcion: ' + item.descripcion);
-	console.log('cantidad: ' + item.cantidad);
-	console.log('importe: ' + item.importe);
-
 	return new Promise((resolve,reject) => {
-		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${item.folioV}', '${item.producto}', '${item.cantidad}', '${item.precio}', '${item.costo}', '${fecha}', '${zonaHoraria}' , '${ahora}', '', '', '', '', '', '', ''); `,
-	  	(err, result) => {
-	    	if (err) throw err;
-	  	});
+		connection.query( `INSERT INTO cancelaciones (id, folio, producto, cantidad, precio, costo, fecha, zona_horaria, hora, motivo, cajero, turno, importe, sucursal, estacion, foliocorte) VALUES (NULL, '${folioV}', '${producto}', '${cantidad}', '${precio}', '${costo}', '${fecha}', '${zonaHoraria}' , '${ahora}', '', '', '', '${importe}', '', '', ''); `,
+		(err, result) => {
+		if (err) throw err;
+		});
 	});
-	}
-	//let ventaArray = Object.entries(ventaJSON);
-	//console.log(ventaArray);
 	
 	//console.log(zonaHoraria);
-
-	
-	
 	// ahora = ahora.substring(0,23);
 	
 	// var hora = ahora.slice(11,19);
@@ -161,6 +147,24 @@ function pasarVentaACancelacion(data){
 	//});
 }
 
+function updateCancelacion(folioV, cajero, turno, sucursal, estacion, foliocorte){
+	console.log("Folio: " + folioV);
+	console.log("Cajero: " + cajero);
+	console.log("Turno: " + turno);
+	console.log("Sucursal:" + sucursal);
+	console.log("Estación: " + estacion);
+	console.log("Foliocorte: " + foliocorte);
+	return new Promise((resolve,reject) => {
+		
+		let querty = connection.query( ` UPDATE cancelaciones SET cajero ='${cajero}', turno='${turno}', sucursal='${sucursal}',estacion = '${estacion}', foliocorte ='${foliocorte}' WHERE folio = '${folioV}'; `,
+	  	(err, result) => {
+	    	if (err) throw err;
+	  	});
+		console.log(querty);
+		console.log("Venta actualizada");
+	});
+}
+
 //Eliminamos de la tabla de ventas todos los datos de un folio específico
 function eliminarVenta(data){
 	return new Promise((resolve,reject) => {
@@ -169,7 +173,6 @@ function eliminarVenta(data){
 	    	if (err) throw err;
 	  	});
 		console.log("Venta eliminada");
-
 	});
 }
 
@@ -208,6 +211,7 @@ module.exports = {
 	eliminarVenta,
 	putCancelled,
 	pasarVentaACancelacion,
+	updateCancelacion,
 	putCompleted,
 	obtenerCredencialesUsuario
 }
