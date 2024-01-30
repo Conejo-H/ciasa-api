@@ -92,6 +92,7 @@ function putCancelled(venta){
 		connection.query( `UPDATE detventas SET estatus = 'cancelado'  WHERE folio = '${venta[0].folio}' ; `, (error, result) =>{
 		if(error) return reject(error);
 		resolve(result);
+		console.log("La venta fue cancelada");
 		//pasarVentaACancelacion(venta);
 		//eliminarVenta(venta);
 		})
