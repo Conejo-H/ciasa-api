@@ -110,7 +110,8 @@ function obtenerDatosVenta(folio){
 
 //Todos los datos de una venta son tranferidos a la tabla de cancelaciones sin eliminarlos de la tabla detventas
 function pasarVentaACancelacion(data){
-	console.log(data);
+	usersRows = JSON.parse(JSON.stringify(data));
+	console.log("Valor de la venta: " + usersRows);
 	var zonaHoraria = Intl.DateTimeFormat().resolvedOptions().timeZone;
 	console.log(zonaHoraria);
 
