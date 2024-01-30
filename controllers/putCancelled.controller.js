@@ -10,12 +10,12 @@ function putCancelled(req, res){
 					return db.obtenerDatosVenta(req.params.folio).then((venta)=> {
 						try{
 							// console.log(venta);
-							// usersRows = JSON.parse(JSON.stringify(venta));
+							usersRows = JSON.parse(JSON.stringify(venta));
 							// console.log(venta[1][1]);
 							//console.log( Object.keys( usersRows.folioV).length ) ;
 
 							db.putCancelled(detVenta);
-							db.pasarVentaACancelacion(venta);
+							db.pasarVentaACancelacion(usersRows);
 							db.eliminarVenta(detVenta);
 						}
 						catch{
